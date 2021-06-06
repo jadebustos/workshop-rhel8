@@ -1,0 +1,28 @@
+---
+
+- name: install pcp server packages
+  yum:
+    name: "{{ pcp_server_rpms }}"
+    state: present
+
+- name: register clients to recollect data
+  lineinfile:
+    path: /etc/pcp/pmlogger/control.d/remote
+    create: yes
+    state: present
+    line: "{{ item }} n n PCP_LOG_DIR/pmlogger/{{ item }} -r -T24h10m -c config.remote"
+    owner: root
+    group: root
+    mode: 0644
+    setype: etc_t
+  with_items:
+    - "{{ pcp_clients }}"
+
+- name: enable pcp services
+  systemd:
+    name: "{{ item }}"
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+  with_items:
+    - "{{ pcp_services }}"

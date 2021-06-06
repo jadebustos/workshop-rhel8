@@ -1,0 +1,28 @@
+---
+
+- hosts: all
+  vars:
+    network_connections:
+      - name: {{ iface }}
+        type: ethernet
+        ip:
+          route_metric4: {{ route_metric4 }}
+          dhcp4: {{ dhcp4 }}
+          dns:
+            - {{ dns }}
+          dns_search:
+            - {{ dns_search }}
+        
+          address:
+            - {{ ipaddr }}/{{ prefix }}
+
+          route:
+            - network: {{ network }}
+              prefix: {{ prefix }}
+              gateway: {{ gateway }}
+              metric: {{ metric }}
+          route_append_only: {{ route_append_only }}
+          rule_append_only: {{ rule_append_only }}
+
+  roles:
+    - role: rhel-system-roles.network 

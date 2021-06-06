@@ -1,0 +1,19 @@
+---
+
+- name: disable services
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+    enabled: no
+    masked: yes
+  with_items:
+    - "{{ common_stopped_services }}"
+
+- name: create users
+  user:
+    name: "{{ item }}"
+    password: "{{ password_users }}"
+    shell: /bin/bash
+    state: present
+  with_items:
+    - "{{ users }}"

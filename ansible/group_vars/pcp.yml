@@ -1,0 +1,15 @@
+---
+
+# pcp local
+pcp_rpms: ['pcp', 'pcp-gui','pcp-system-tools','pcp-doc','pcp-webjs','pcp-webapi','pcp-webapp-vector','pcp-webapp-grafana','pcp-webapp-graphite','bitmap-fixed-fonts','xorg-x11-fonts-75dpi.noarch','xorg-x11-fonts-100dpi.noarch','xorg-x11-fonts-misc.noarch','xorg-x11-xauth']
+
+pcp_server_rpms: ['pcp-system-tools', 'pcp-doc']
+pcp_client_rpms: ['pcp-system-tools', 'pcp-doc']
+
+selinux_rpms: ['python3-libsemanage', 'python3-libselinux']
+
+pcp_services: ['pmcd', 'pmlogger']
+pcp_web_services: ['pmwebd']
+
+pcp_server: ['pcopilot.labmad.redhat.com']
+pcp_clients: ['pcopilot-client1.labmad.redhat.com', 'pcopilot-client2.labmad.redhat.com']

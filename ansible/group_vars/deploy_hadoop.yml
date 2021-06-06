@@ -1,0 +1,33 @@
+---
+
+common_stopped_services: ['firewalld']
+
+ssh_key_bits: 4096
+ssh_key_file: '.ssh/id_rsa'
+ssh_key_type: 'rsa'
+
+java_rpms: ['java-1.8.0-openjdk-headless', 'java-1.8.0-openjdk-devel']
+
+hadoop_dir: 'hadoop-3.1.2'
+hadoop_tarball: 'hadoop-3.1.2.tar.gz'
+hadoop_user: 'hadoop'
+
+data_replication: 2
+
+# yarn memory configuration for 4 GB nodes
+yarn_nodemanager_resource_memory_mb: 3072
+yarn_scheduler_maximum_allocation_mb: 3072 
+yarn_scheduler_minimum_allocation_mb: 256
+yarn_nodemanager_vmem_check_enabled: 'false'
+
+# yarn general configuration
+yarn_acl_enable: 0
+yarn_nodemanager_aux_services: 'mapreduce_shuffle'
+
+# map reduce memory configuration for 4 GB nodes
+yarn_app_mapreduce_am_resource_mb: 1024
+mapreduce_map_memory_mb: 512
+mapreduce_reduce_memory_mb: 512
+
+# map reduce general configuration
+mapreduce.framework.name: 'yarn'

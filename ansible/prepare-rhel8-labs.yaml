@@ -1,0 +1,54 @@
+---
+
+- name: deploying labs
+  hosts: all
+  vars_files:
+    - "group_vars/common.yml"
+    - "group_vars/vdo.yml"
+    - "group_vars/pcp.yml"
+    - "group_vars/web_console.yml"
+    - "group_vars/image_builder.yml"
+    - "group_vars/system_roles.yml"
+    - "group_vars/insights.yml"
+    - "group_vars/session_recording.yml"
+  gather_facts: true
+  roles:
+    - role: common
+      tags:
+        - common
+        - full
+    - role: vdo
+      tags:
+        - vdo
+        - full
+    - role: pcp-client
+      tags:
+       - pcp-client
+       - full
+    - role: pcp-server
+      tags:
+       - pcp-server
+       - full
+    - role: web_console
+      tags:
+        - web_console
+        - vdo
+        - pcp
+        - session_recording
+        - full
+    - role: image_builder
+      tags:
+        - image_builder
+        - full
+    - role: system_roles
+      tags:
+        - system_roles
+        - full
+    - role: insights
+      tags:
+        - insights
+        - full
+    - role: session_recording
+      tags:
+        - session_recording
+        - full

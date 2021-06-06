@@ -1,0 +1,53 @@
+---
+
+- name: disable services
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+    enabled: no
+    masked: yes
+  with_items:
+    - "{{ common_stopped_services }}"
+
+- name: create users
+  user:
+    name: "{{ hadoop_user }}"
+    state: present
+    generate_ssh_key: yes
+    ssh_key_bits: "{{ ssh_key_bits }}"
+    ssh_key_file: "{{ ssh_key_file }}"
+    ssh_key_type: "{{ ssh_key_type }}"
+
+- name: install openjdk
+  yum:
+    name: "{{ java_rpms }}"
+    state: present
+
+- name: retrieve hadoop_user public key
+  fetch:
+    src: "/home/{{ hadoop_user }}/{{ ssh_key_file }}.pub"
+    dest: "roles/deploy_hadoop/files/master-id_rsa.pub"
+    flat: yes
+  when: inventory_hostname in groups['master']
+
+- name: copy master's hadoop_user public key to nodes
+  copy:
+    src: "roles/deploy_hadoop/files/master-id_rsa.pub"
+    dest: "/home/{{ hadoop_user }}/.ssh/authorized_keys"
+    owner: "{{ hadoop_user }}"
+    group: "{{ hadoop_user }}"
+    mode: 0644
+    setype: ssh_home_t
+  when: inventory_hostname in groups['nodes']
+
+- name: delete master's known_hosts if any
+  file: 
+    path: "/home/{{ hadoop_user }}/.ssh/known_hosts"
+    state: absent
+  when: inventory_hostname in groups['master']
+
+- name: copy ssh keys for nodes in master's known_hosts
+  shell: "/usr/bin/ssh-keyscan {{ item }} >> /home/{{ hadoop_user }}/.ssh/known_hosts"
+  when: inventory_hostname in groups['master']
+  with_items:
+    - "{{ groups['nodes'] }}"

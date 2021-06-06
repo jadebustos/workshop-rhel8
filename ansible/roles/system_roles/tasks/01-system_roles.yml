@@ -1,0 +1,24 @@
+---
+
+- name: install system_roles packages
+  yum:
+    name: "{{ system_roles_rpms }}"
+    state: present
+
+- name: directory
+  file:
+    name: "{{ work_dir }}"
+    state: directory
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+
+- name: copy example playbooks
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ work_dir }}/{{ item }}"
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  with_items:
+    - "{{ template_files }}"

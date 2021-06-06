@@ -1,0 +1,28 @@
+---
+
+- name: cleaning labs
+  hosts: all
+  vars_files:
+    - "group_vars/vdo.yml"
+    - "group_vars/system_roles.yml"
+    - "group_vars/insights.yml"
+    - "group_vars/session_recording.yml"
+
+  gather_facts: false
+  roles:
+    - role: clean_system_roles
+      tags:
+        - system_roles
+        - full
+    - role: clean_vdo
+      tags:
+        - vdo
+        - full
+    - role: clean_insights
+      tags:
+        - insights
+        - full
+    - role: clean_session_recording
+      tags:
+        - session_recording
+        - full

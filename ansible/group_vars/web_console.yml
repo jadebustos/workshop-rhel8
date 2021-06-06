@@ -1,0 +1,4 @@
+---
+
+web_console_rpms: ['cockpit', 'cockpit-pcp', 'cockpit-session-recording', 'cockpit-pcp']
+web_console_services: ['cockpit.socket']

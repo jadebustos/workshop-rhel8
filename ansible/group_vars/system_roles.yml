@@ -1,0 +1,19 @@
+---
+
+system_roles_rpms: ['rhel-system-roles']
+work_dir: '/root/labs/system_roles'
+template_files: ['hosts', 'configure-network.yml']
+
+# change this to fit your environment
+iface: 'enp7s0'
+route_metric4: 100
+dhcp4: 'no'
+dns: '192.168.200.1'
+dns_search: 'frontend.lab'
+ipaddr: '192.168.100.90'
+prefix: 24
+network: '192.168.100.0'
+gateway: '192.168.100.254'
+metric: 4
+route_append_only: 'no'
+rule_append_only: 'yes'

@@ -1,0 +1,23 @@
+---
+
+vdo_dev: '/dev/vdb'
+vdo_name: 'vdob'
+vdo_size: '70G'
+vdo_vg: 'vdoVG'
+vdo_lv: 'vdoLV'
+vdo_lv_size: '65G'
+vdo_mount_point: '/media/vdo'
+vdo_mount_options: '-K -i size=512'
+vdo_fstab_options: 'x-systemd.requires=vdo.service'
+vdo_services: 'fstrim.timer'
+vdo_rpms: ['tar', 'vdo', 'kmod-kvdo', 'cockpit-storaged']
+
+no_vdo_dev: '/dev/vdc'
+no_vdo_vg: 'novdoVG'
+no_vdo_lv: 'novdoLV'
+no_vdo_lv_size: '65G'
+no_vdo_mount_point: '/media/lvm'
+
+kernels_url: 'https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x'
+kernels: ['linux-4.1.16.tar.gz', 'linux-4.1.22.tar.gz', 'linux-4.1.29.tar.gz', 'linux-4.1.35.tar.gz', 'linux-4.1.41.tar.gz', 'linux-4.1.48.tar.gz', 'linux-4.0.1.tar.gz', 'linux-4.0.8.tar.gz', 'linux-4.1.17.tar.gz', 'linux-4.1.23.tar.gz', 'linux-4.1.2.tar.gz', 'linux-4.1.36.tar.gz', 'linux-4.1.42.tar.gz', 'linux-4.0.2.tar.gz', 'linux-4.0.9.tar.gz', 'linux-4.10.15.tar.gz', 'linux-4.1.11.tar.gz', 'linux-4.1.18.tar.gz', 'linux-4.1.24.tar.gz', 'linux-4.1.30.tar.gz', 'linux-4.1.37.tar.gz', 'linux-4.1.43.tar.gz', 'linux-4.1.4.tar.gz', 'linux-4.1.8.tar.gz', 'linux-4.0.3.tar.gz', 'linux-4.0.tar.gz', 'linux-4.10.16.tar.gz', 'linux-4.1.12.tar.gz', 'linux-4.1.19.tar.gz', 'linux-4.1.25.tar.gz', 'linux-4.1.31.tar.gz', 'linux-4.1.38.tar.gz', 'linux-4.1.44.tar.gz', 'linux-4.1.50.tar.gz', 'linux-4.1.9.tar.gz', 'linux-4.0.4.tar.gz', 'linux-4.10.10.tar.gz', 'linux-4.10.17.tar.gz', 'linux-4.1.13.tar.gz', 'linux-4.1.1.tar.gz', 'linux-4.1.26.tar.gz', 'linux-4.1.32.tar.gz', 'linux-4.1.39.tar.gz', 'linux-4.1.45.tar.gz', 'linux-4.1.51.tar.gz', 'linux-4.1.tar.gz', 'linux-4.0.5.tar.gz', 'linux-4.10.11.tar.gz', 'linux-4.10.1.tar.gz', 'linux-4.1.14.tar.gz', 'linux-4.1.20.tar.gz', 'linux-4.1.27.tar.gz', 'linux-4.1.33.tar.gz', 'linux-4.1.3.tar.gz', 'linux-4.1.46.tar.gz', 'linux-4.1.52.tar.gz', 'linux-4.0.6.tar.gz', 'linux-4.10.12.tar.gz', 'linux-4.10.2.tar.gz', 'linux-4.1.15.tar.gz', 'linux-4.1.21.tar.gz', 'linux-4.1.28.tar.gz', 'linux-4.1.34.tar.gz', 'linux-4.1.40.tar.gz', 'linux-4.1.47.tar.gz', 'linux-4.1.5.tar.gz', 'linux-4.0.7.tar.gz', 'linux-4.10.13.tar.gz', 'linux-4.10.3.tar.gz', 'linux-4.1.16.tar.gz', 'linux-4.10.14.tar.gz', 'linux-4.1.10.tar.gz', 'linux-4.1.49.tar.gz', 'linux-4.1.7.tar.gz']
+download_dir: '/tmp/kernels'

@@ -1,0 +1,52 @@
+---
+
+- name: install vdo packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ vdo_rpms }}"
+
+- name: enable fstrim.timer
+  systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+    - "{{ vdo_services }}"
+    
+- name: create a vdo volume
+  command: /usr/bin/vdo create --name="{{ vdo_name }}" --device="{{ vdo_dev }}" --vdoLogicalSize="{{ vdo_size }}"
+
+- name: create a vg on top of a vdo volume
+  lvg:
+    vg: "{{ vdo_vg }}"
+    pvs: "/dev/mapper/{{ vdo_name }}"
+
+- name: create a lv on vdo volume
+  lvol:
+    vg: "{{ vdo_vg }}"
+    lv: "{{ vdo_lv }}"
+    size: "{{ vdo_lv_size }}"
+
+- name: create a fs on vdo volume
+  filesystem:
+    fstype: xfs
+    opts: "{{ vdo_mount_options }}"
+    dev: "/dev/{{ vdo_vg }}/{{ vdo_lv }}"
+
+- name: create mount point
+  file:
+    path: "{{ vdo_mount_point }}"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: add fstab entry
+  mount:
+    src: "/dev/{{ vdo_vg }}/{{ vdo_lv}}"
+    path: "{{ vdo_mount_point }}"
+    fstype: xfs
+    state: present
+    opts: "{{ vdo_fstab_options }}" 

@@ -1,0 +1,4 @@
+---
+
+session_recording_rpms: ['sssd', 'cockpit-session-recording']
+session_recording_services: ['sssd']

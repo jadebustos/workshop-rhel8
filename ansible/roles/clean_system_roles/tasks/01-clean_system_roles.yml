@@ -1,0 +1,17 @@
+---
+
+- name: disable network interface configured in lab system_roles
+  command: "/usr/sbin/ifdown {{ iface }}"
+
+- name: delete network configuration files
+  file:
+    path: "/etc/sysconfig/network-scripts/{{ item }}-{{ iface }}"
+    state: absent
+  with_items:
+    - 'ifcfg'
+    - 'route'
+
+- name: restart network services
+  systemd:
+    name: NetworkManager
+    state: restarted

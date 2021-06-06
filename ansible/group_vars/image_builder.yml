@@ -1,0 +1,4 @@
+---
+
+image_builder_rpms: ['lorax-composer', 'composer-cli', 'cockpit-composer', 'bash-completion']
+image_builder_services: ['lorax-composer.socket', 'cockpit.socket']

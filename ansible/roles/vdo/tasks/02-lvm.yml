@@ -1,0 +1,33 @@
+---
+
+- name: create a vg
+  lvg:
+    vg: "{{ no_vdo_vg }}"
+    pvs: "{{ no_vdo_dev }}"
+
+- name: create a lv on vdo volume
+  lvol:
+    vg: "{{ no_vdo_vg }}"
+    lv: "{{ no_vdo_lv }}"
+    size: "{{ no_vdo_lv_size }}"
+
+- name: create a fs on vdo volume
+  filesystem:
+    fstype: xfs
+    opts: '-i size=512'
+    dev: "/dev/{{ no_vdo_vg }}/{{ no_vdo_lv }}"
+
+- name: create mount point
+  file:
+    path: "{{ no_vdo_mount_point }}"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: add fstab entry
+  mount:
+    src: "/dev/{{ no_vdo_vg }}/{{ no_vdo_lv}}"
+    path: "{{ no_vdo_mount_point }}"
+    fstype: xfs
+    state: present

@@ -1,0 +1,45 @@
+---
+
+- name: install pcp packages
+  yum:
+    name: "{{ pcp_client_rpms }}"
+    state: present
+
+- name: install selinux packages
+  yum:
+    name: "{{ selinux_rpms }}"
+    state: present
+
+- name: register clients to recollect data
+  lineinfile:
+    path: /etc/pcp/pmcd/pmcd.options
+    create: yes
+    state: present
+    line: "-i {{ ansible_default_ipv4.address }}"
+    owner: root
+    group: root
+    mode: 0644
+    setype: etc_t
+
+- name: open firewall ports
+  firewalld:
+    port: 44321/tcp
+    zone: public
+    state: enabled
+    permanent: yes
+    immediate: yes
+
+- name: enable selinux boolean
+  seboolean:
+    name: pcp_bind_all_unreserved_ports
+    state: yes
+    persistent: yes
+
+- name: enable pcp services
+  systemd:
+    name: "{{ item }}"
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+  with_items:
+    - "{{ pcp_services }}"

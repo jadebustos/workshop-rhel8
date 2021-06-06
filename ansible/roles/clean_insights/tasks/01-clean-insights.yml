@@ -1,0 +1,10 @@
+---
+
+- name: unregister host in insights
+  command: /usr/bin/insights-client --unregister
+
+- name: unstall insights packages
+  yum:
+    name: "{{ insights_rpms }}"
+    state: absent
+

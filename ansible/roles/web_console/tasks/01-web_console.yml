@@ -1,0 +1,14 @@
+---
+
+- name: install web_console packages
+  yum:
+    name: "{{ web_console_rpms }}"
+    state: present
+
+- name: enable web_console services
+  systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+    - "{{ web_console_services }}"

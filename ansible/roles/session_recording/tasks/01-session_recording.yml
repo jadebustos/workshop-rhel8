@@ -1,0 +1,23 @@
+---
+
+- name: install session recording packages
+  yum:
+    name: "{{ session_recording_rpms }}"
+    state: present
+
+- name: copy sssd.conf minimal file
+  copy:
+    src: sssd.conf
+    dest: /etc/sssd/sssd.conf
+    owner: root
+    group: root
+    mode: 0600
+    setype: sssd_conf_t
+
+- name: enable session_recording services
+  systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+    - "{{ session_recording_services }}"

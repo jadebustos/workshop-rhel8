@@ -1,0 +1,8 @@
+---
+
+common_stopped_services: ['firewalld']
+
+users: ['demo']
+
+#  python -c "import crypt; print crypt.crypt('temporal')"
+password_users: '$6$dhkP3/5NcbzUAurS$voFw2/k2r/6BTEr3CZiPWxSnfegpEstD/tZrQd4WRzKnCtV9MM0kc2wdwdk6xALlofubCc8SP.L4KD5q7aYI8/'

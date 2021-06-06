@@ -1,0 +1,91 @@
+---
+
+- name: untar hadoop tarball
+  unarchive:
+    src: "{{ hadoop_tarball }}"
+    dest: "/home/{{ hadoop_user }}"
+    owner: "{{ hadoop_user }}"
+    group: "{{ hadoop_user }}"
+    mode: 0755
+    setype: user_home_t
+
+- name: create .profile file
+  template:
+    src: profile.j2
+    dest: "/home/{{ hadoop_user }}/.profile"
+    owner: "{{ hadoop_user }}"
+    group: "{{ hadoop_user }}"
+    mode: 0644
+    setype: user_home_t
+
+- name: configure .bashrc file
+  lineinfile:
+    path: "/home/{{ hadoop_user }}/.bashrc"
+    line: "{{ item }}"
+    state: present
+  with_items:
+    - "export HADOOP_HOME=/home/{{ hadoop_user }}/{{ hadoop_dir }}"
+    - "export PATH=${PATH}:${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin"
+
+- name: getting java installation path
+  shell: '/usr/sbin/update-alternatives --display java | grep "^/usr/" | sed s/[[:space:]]-.*//g | sed s/\\/bin\\/java$//g'
+  register: java_installation_path
+  when: inventory_hostname in groups['master']
+
+- name: configure java installation path
+  lineinfile:
+    path: "/home/{{ hadoop_user }}/{{ hadoop_dir }}/etc/hadoop/hadoop-env.sh"
+    state: present
+    regexp: '^export JAVA_HOME'
+    line: "export JAVA_HOME={{ java_installation_path.stdout }}"
+  when: inventory_hostname in groups['master']
+
+- name: set namenode location
+  template:
+    src: core-site.xml.j2
+    dest: "/home/{{ hadoop_user }}/{{ hadoop_dir }}/etc/hadoop/core-site.xml"
+    owner: "{{ hadoop_user }}"
+    group: "{{ hadoop_user }}"
+    mode: 0755
+    setype: user_home_t
+  when: inventory_hostname in groups['master']
+
+- name: set path for hdfs
+  template:
+    src: hdfs-site.xml.j2
+    dest: "/home/{{ hadoop_user }}/{{ hadoop_dir }}/etc/hadoop/hdfs-site.xml"
+    owner: "{{ hadoop_user }}"
+    group: "{{ hadoop_user }}"
+    mode: 0755
+    setype: user_home_t
+  when: inventory_hostname in groups['master']
+
+- name: set yarn as job scheduler
+  template:
+    src: mapred-site.xml.j2
+    dest: "/home/{{ hadoop_user }}/{{ hadoop_dir }}/etc/hadoop/madred-site.xml"
+    owner: "{{ hadoop_user }}"
+    group: "{{ hadoop_user }}"
+    mode: 0755
+    setype: user_home_t
+  when: inventory_hostname in groups['master']
+
+- name: configure yarn
+  template:
+    src: yarn-site.xml.j2
+    dest: "/home/{{ hadoop_user }}/{{ hadoop_dir }}/etc/hadoop/yarn-site.xml"
+    owner: "{{ hadoop_user }}"
+    group: "{{ hadoop_user }}"
+    mode: 0755
+    setype: user_home_t
+  when: inventory_hostname in groups['master']
+
+- name: configure workers
+  template:
+    src: workers.j2
+    dest: "/home/{{ hadoop_user }}/{{ hadoop_dir }}/etc/hadoop/workers"
+    owner: "{{ hadoop_user }}"
+    group: "{{ hadoop_user }}"
+    mode: 0755
+    setype: user_home_t
+  when: inventory_hostname in groups['master']

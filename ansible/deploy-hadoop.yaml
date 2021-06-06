@@ -1,0 +1,9 @@
+---
+
+- name: deploying hadoop
+  hosts: all
+  vars_files:
+    - "group_vars/deploy_hadoop.yml"
+  gather_facts: false
+  roles:
+    - role: deploy_hadoop

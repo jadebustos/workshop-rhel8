@@ -1,0 +1,5 @@
+---
+
+- include_tasks: 01-vdo.yml
+- include_tasks: 02-lvm.yml
+- include_tasks: 03-data.yml

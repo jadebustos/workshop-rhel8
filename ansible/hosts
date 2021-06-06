@@ -1,0 +1,12 @@
+[all:vars]
+ansible_user=root
+
+[rhel8]
+192.168.200.90
+
+[pcp-server]
+10.39.176.143
+
+[pcp-clients]
+10.39.176.144
+10.39.176.145

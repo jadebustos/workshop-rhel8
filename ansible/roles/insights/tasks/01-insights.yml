@@ -1,0 +1,9 @@
+---
+
+- name: install insights packages
+  yum:
+    name: "{{ insights_rpms }}"
+    state: present
+
+- name: register host in insights
+  command: /usr/bin/insights-client --register

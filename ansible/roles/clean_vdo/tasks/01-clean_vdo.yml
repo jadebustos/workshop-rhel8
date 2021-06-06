@@ -1,0 +1,26 @@
+---
+
+- name: umount filesystems
+  mount:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ vdo_mount_point }}"
+    - "{{ no_vdo_mount_point }}"
+
+- name: remove vgs
+  lvg:
+    vg: "{{ item }}"
+    state: absent
+    force: yes
+  with_items:
+    - "{{ vdo_vg }}"
+    - "{{ no_vdo_vg }}"
+
+- name: remove vdo volume
+  vdo:
+    name: "{{ vdo_name }}"
+    state: absent
+
+- name: remove physical volume
+  command: "/usr/sbin/pvremove --force --yes {{ no_vdo_dev }}"

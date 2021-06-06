@@ -1,0 +1,19 @@
+---
+
+- name: stop session_recording services
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+    enabled: no
+  with_items:
+    - "{{ session_recording_services }}"
+
+- name: remove sssd.conf file
+  file:
+    path: /etc/sssd/sssd.conf
+    state: absent
+
+- name: remove session recording packages
+  yum:
+    name: "{{ session_recording_rpms }}"
+    state: absent
